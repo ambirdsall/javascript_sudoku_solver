@@ -18,6 +18,17 @@ Game.prototype = {
 		for (var i=0; i<this.boardSize; i++) {
 			this.board.push(new Cell(boardString.charAt(i)))
 		}
+	},
+	isSolved: function() {
+		var emptyCellsFound = false,
+		    i = 0;
+		while (!emptyCellsFound && i<this.boardSize) {
+			if (this.board[i].digit === "0") {
+				return emptyCellsFound;
+			}
+			i++;
+		}
+		return !emptyCellsFound;
 	}
 }
 
