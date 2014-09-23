@@ -1,4 +1,5 @@
 Game = function(boardString) {
+	this.boardSize = 81;
 	try {
 		this.makeBoard(boardString);
 	} catch(e) {
@@ -8,15 +9,13 @@ Game = function(boardString) {
 
 Game.prototype = {
 	makeBoard: function(boardString) {
-		var length = 81;
-
-		if (boardString.length !== length) {
+		if (boardString.length !== this.boardSize) {
 			throw "Invalid board string";
 		}
 
 		this.board = [];
 
-		for (var i=0; i<length; i++) {
+		for (var i=0; i<this.boardSize; i++) {
 			this.board.push(new Cell(boardString.charAt(i)))
 		}
 	}
