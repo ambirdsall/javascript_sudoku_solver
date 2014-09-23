@@ -1,5 +1,26 @@
-Game = function(board) {
-	this.board = board;
+Game = function(boardString) {
+	try {
+		this.makeBoard(boardString);
+	} catch(e) {
+		console.log(e)
+	}
+}
+
+Game.prototype = {
+	makeBoard: function(boardString) {
+		var length = 81;
+
+		if (boardString.length !== length) {
+			throw "Invalid board string";
+		}
+
+		this.board = [];
+
+		for (var i=0; i<length; i++) {
+			this.board.push(new Cell(boardString.charAt(i)))
+		}
+	}
+}
 
 Cell = function(digit) {
 	this.digit = digit;
