@@ -37,12 +37,12 @@ Game.prototype = {
     this.board = [];
 
     for (var i=0; i<this.boardSize; i++) {
-      this.board.push(new Cell(boardString.charAt(i)))
+      this.board.push(new Cell(boardString.charAt(i), i))
     }
   },
   isSolved: function() {
     var emptyCellsFound = false,
-    i = 0;
+        i = 0;
     while (!emptyCellsFound && i<this.boardSize) {
       if (this.board[i].digit === "0") {
         return emptyCellsFound;
@@ -53,8 +53,9 @@ Game.prototype = {
   }
 }
 
-Cell = function(digit) {
+Cell = function(digit, index) {
   this.digit = digit;
+  this.index = index;
 }
 
 Cell.prototype = {
