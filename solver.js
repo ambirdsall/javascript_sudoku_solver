@@ -60,7 +60,7 @@ Cell = function(digit, index) {
 
 Cell.prototype = {
   isEmpty: function() {
-    return (this.digit === 0 ? true : false);
+    return this.digit === "0" ? true : false;
   },
 
   rowNum: function() {
