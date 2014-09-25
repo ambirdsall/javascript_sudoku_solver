@@ -1,3 +1,24 @@
+function uniq(arr) {  // function name changed, but all logic curtesy of http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+  var i,
+    len=arr.length,
+    out=[],
+    obj={};
+
+  for (i=0;i<len;i++) {
+    obj[arr[i]]=0;
+  }
+  for (i in obj) {
+    out.push(i);
+  }
+  return out;
+}
+
+function flatten(arr) {
+  return arr.reduce(function(a,b) {
+    return a.concat(b);
+  });
+}
+
 Game = function(boardString) {
   this.boardSize = 81;
   try {
