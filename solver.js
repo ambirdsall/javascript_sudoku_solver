@@ -21,11 +21,7 @@ function flatten(arr) {
 
 Game = function(boardString) {
   this.boardSize = 81;
-  try {
-    this.makeBoard(boardString);
-  } catch(e) {
-    console.log(e)
-  }
+  this.makeBoard(boardString);
 }
 
 Game.prototype = {
