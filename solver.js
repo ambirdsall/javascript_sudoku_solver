@@ -52,19 +52,49 @@ Game.prototype = {
 Cell = function(digit, index) {
   this.digit = digit;
   this.index = index;
+  this.getRelatedCellIndeces();
 }
 
 Cell.prototype = {
   isEmpty: function() {
     return this.digit === "0" ? true : false;
   },
-
-  rowNum: function() {
-    return this.digit / 9;
+  getRelatedCellIndeces: function() {
+    var relatedCells = [];
+    relatedCells.push(this.getSameRow());
+    relatedCells.push(this.getSameCol());
+    relatedCells.push(this.getSameBox());
+    this.relatedCells = uniq.call(this, flatten(relatedCells));
   },
-
-  colNum: function() {
-    return this.digit % 9;
+  getSameRow: function() {
+    var i=0,
+        row=[];
+    for (i; i<81; i++) {
+      if (i !== this.index && ((i/9|0) === (this.index/9|0))) {
+        row.push(i);
+      }
+    }
+    return row;
+  },
+  getSameCol: function() {
+    var i=0,
+        col=[];
+    for (i; i<81; i++) {
+      if (i !== this.index && ((i%9|0) === (this.index%9|0))) {
+        col.push(i);
+      }
+    }
+    return col;
+  },
+  getSameBox: function() {
+    var i=0,
+        box=[];
+    for (i; i<81; i++) {
+      if (i !== this.index && (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) && (((i%9|0)/3|0) === ((this.index%9|0)/3|0))) {
+        box.push(i);
+      }
+    }
+    return box;
   }
 }
 
