@@ -19,6 +19,10 @@ function flatten(arr) {
   });
 }
 
+function flattenAndUniq(arr) {
+  return uniq.call(this, flatten(arr));
+}
+
 Game = function(boardString) {
   this.boardSize = 81;
   this.makeBoard(boardString);
@@ -64,7 +68,7 @@ Cell.prototype = {
     relatedCells.push(this.getSameRow());
     relatedCells.push(this.getSameCol());
     relatedCells.push(this.getSameBox());
-    this.relatedCells = uniq.call(this, flatten(relatedCells));
+    this.relatedCells = flattenAndUniq(relatedCells);
   },
   getSameRow: function() {
     var i=0,
