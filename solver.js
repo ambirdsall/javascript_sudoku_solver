@@ -19,6 +19,10 @@ function flatten(arr) {
   });
 }
 
+function flattenAndUniq(arr) {
+  return uniq.call(this, flatten(arr));
+}
+
 Game = function(boardString) {
   this.boardSize = 81;
   this.makeBoard(boardString);
@@ -46,6 +50,36 @@ Game.prototype = {
       i++;
     }
     return !emptyCellsFound;
+  },
+  printBoard: function() {
+    var that = this,
+        divider = "-------------------------------",
+        i=0,
+        j=0,
+        printRow = function() {
+          var count = 9*(i/9|0) + 9;
+          rowToPrint="|";
+          for (i; i<count; i++) {
+            rowToPrint += " " + that.board[i].digit + " ";
+            if (i % 3 === 2) {
+              rowToPrint += "|";
+            }
+          }
+          console.log(rowToPrint);
+        };
+    console.log(divider);
+    for (j;j<3;j++) {
+      printRow();
+    }
+    console.log(divider);
+    for (j;j<6;j++) {
+      printRow();
+    }
+    console.log(divider);
+    for (j;j<9;j++) {
+      printRow();
+    }
+    console.log(divider);
   }
 }
 
@@ -64,7 +98,7 @@ Cell.prototype = {
     relatedCells.push(this.getSameRow());
     relatedCells.push(this.getSameCol());
     relatedCells.push(this.getSameBox());
-    this.relatedCells = uniq.call(this, flatten(relatedCells));
+    this.relatedCells = flattenAndUniq(relatedCells);
   },
   getSameRow: function() {
     var i=0,
