@@ -95,10 +95,11 @@ Game.prototype = {
 
     relatedValues = flattenAndUniq(relatedValues).sort();
 
-    if (relatedValues.length === 8) {
+    if ( relatedValues.length === 8 ) {
       for (j; j<9; j++) {
-        if (relatedValues[j] !== POSSIBLE_VALUES[j]) {
+        if ( relatedValues[j] !== POSSIBLE_VALUES[j] ) {
           this.board[currentIndex].digit = POSSIBLE_VALUES[j];
+          return this.board[currentIndex].digit;
         }
       }
     }
