@@ -80,6 +80,29 @@ Game.prototype = {
       printRow();
     }
     console.log(divider);
+  },
+  findCellValue: function(currentIndex) {
+    var i = 0,
+        j = 0,
+        NUM_OF_RELATED_CELLS = 20,
+        POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
+        relatedValues = [];
+
+    for(i; i<NUM_OF_RELATED_CELLS; i++) {
+      if (this.board[currentIndex].relatedCells[i] !== "0") {
+        relatedValues.push(this.board[currentIndex].relatedCells[i]);
+      }
+    }
+
+    relatedValues = flattenAndUniq(relatedValues).sort();
+
+    if (relatedValues.length === 8) {
+      for (j; j<9; j++) {
+        if (relatedValues[j] !== POSSIBLE_VALUES[j]) {
+          this.board[currentIndex].digit = POSSIBLE_VALUES[j];
+        }
+      }
+    }
   }
 }
 
