@@ -52,13 +52,12 @@ Game.prototype = {
     return !emptyCellsFound;
   },
   printBoard: function() {
-    var that = this;
-    console.log("-------------------------------");
-    var i=0,
+    var that = this,
+        divider = "-------------------------------",
+        i=0,
         j=0,
         printRow = function() {
           var count = 9*(i/9|0) + 9;
-          //console.log(this)
           rowToPrint="|";
           for (i; i<count; i++) {
             rowToPrint += " " + that.board[i].digit + " ";
@@ -68,18 +67,19 @@ Game.prototype = {
           }
           console.log(rowToPrint);
         };
+    console.log(divider);
     for (j;j<3;j++) {
       printRow();
     }
-    console.log("-------------------------------")
+    console.log(divider);
     for (j;j<6;j++) {
       printRow();
     }
-    console.log("-------------------------------")
+    console.log(divider);
     for (j;j<9;j++) {
       printRow();
     }
-    console.log("-------------------------------")
+    console.log(divider);
   }
 }
 
