@@ -133,7 +133,23 @@ Game.prototype = {
         }
       }
     }
+
     return anyChanges;
+  },
+  guessArbitraryEmptyCell: function() {
+    //pick a random number 0-80. Starting at that index, find 1st empty cell, looping to 0 if needed
+    //at that cell, build possibleValues and then choose one at random
+    var i = (Math.random()*80|0);
+
+    for (i; i<81; i++) {
+      if ( this.board[i].digit === "0" ) {
+        possibleValues = this.buildPossibleValues(i);
+        this.board[i].digit = possibleValues[(Math.random()*possibleValues.length|0)];
+        this.board[i].isGuess = true;
+      } else if ( i === 80 ) {
+        i = -1;
+      }
+    }
   },
   solve: function() {
     while ( !this.isSolved() ){
