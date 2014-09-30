@@ -23,77 +23,83 @@ function flattenAndUniq(arr) {
   return uniq.call(this, flatten(arr));
 }
 
+function diffArrays (A, B) { //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
+    var strA = ":" + A.join("::") + ":",
+        strB = ":" +  B.join(":|:") + ":",
+        reg = new RegExp("(" + strB + ")","gi"),
+        strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
+
+    return strDiff.split("::");
+}
+
 Game = function(boardString) {
   this.makeBoard(boardString);
 }
 
 Game.prototype = {
   makeBoard: function(boardString) {
-    if (boardString.length !== 81) {
+    if ( boardString.length !== 81 ) {
       throw "Invalid board string";
     }
 
+    var i = 0;
+
     this.board = [];
 
-    for (var i=0; i<81; i++) {
-      this.board.push(new Cell(boardString.charAt(i), i))
+    for (i; i<81; i++) {
+      this.board.push(new Cell(boardString.charAt(i), i));
     }
   },
   isSolved: function() {
     var emptyCellsFound = false,
         i = 0;
-    while (!emptyCellsFound && i<81) {
+
+    while ( !emptyCellsFound && i<81 ) {
       if (this.board[i].digit === "0") {
         return emptyCellsFound;
       }
       i++;
     }
+
     return !emptyCellsFound;
   },
   printBoard: function() {
     var that = this,
         divider = "-------------------------------",
-        i=0,
-        j=0,
+        i = 0,
+        j = 0,
         printRow = function() {
-          var count = 9*(i/9|0) + 9;
-          rowToPrint="|";
+          var count = 9*(i/9|0) + 9,
+              rowToPrint = "|";
           for (i; i<count; i++) {
             rowToPrint += " " + that.board[i].digit + " ";
             if (i % 3 === 2) {
               rowToPrint += "|";
             }
           }
-          console.log(rowToPrint);
+          console.log( rowToPrint );
         };
-    console.log(divider);
-    for (j;j<3;j++) {
+    console.log( divider );
+    for (j; j<3; j++) {
       printRow();
     }
-    console.log(divider);
-    for (j;j<6;j++) {
+    console.log( divider );
+    for (j; j<6; j++) {
       printRow();
     }
-    console.log(divider);
-    for (j;j<9;j++) {
+    console.log( divider );
+    for (j; j<9; j++) {
       printRow();
     }
-    console.log(divider);
+    console.log( divider );
   },
   findCellValue: function(currentIndex) {
-    var i = 0,
-        POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"];
+    var possibleValues = this.buildPossibleValues(currentIndex);
 
-    relatedValues = this.buildRelatedValues(currentIndex);
-
-    if ( relatedValues.length === 8 ) {
-      for (i; i<9; i++) {
-        if ( relatedValues[i] !== POSSIBLE_VALUES[i] ) {
-          this.board[currentIndex].digit = POSSIBLE_VALUES[i];
+    if ( possibleValues.length === 1 ) {
+          this.board[currentIndex].digit = possibleValues[0];
           return this.board[currentIndex].digit;
-        }
-      }
-    } else if ( relatedValues.length === 9 ) {
+    } else if ( possibleValues.length === 0 ) {
       // NEXT FUCKIN' GUESS
     }
   },
@@ -109,6 +115,12 @@ Game.prototype = {
     }
 
     return flattenAndUniq(relatedValues).sort();
+  },
+  buildPossibleValues: function(currentIndex) {
+    var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
+        relatedValues = this.buildRelatedValues(currentIndex);
+
+    return diffArrays(POSSIBLE_VALUES, relatedValues);
   },
   checkAllCells: function() {
     var i = 0,
