@@ -103,6 +103,24 @@ Game.prototype = {
         }
       }
     }
+  },
+  checkAllCells: function() {
+    var i = 0,
+    anyChanges = false;
+
+    for (i; i<81; i++) {
+      if( this.board[i].digit === "0" ) {
+        if( this.findCellValue(i) ) {
+          anyChanges = i;
+        }
+      }
+    }
+    return anyChanges;
+  },
+  solve: function() {
+    while ( !this.isSolved() ){
+      this.checkAllCells();
+    }
   }
 }
 
