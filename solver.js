@@ -88,8 +88,8 @@ Game.prototype = {
         relatedValues = [];
 
     for(i; i<NUM_OF_RELATED_CELLS; i++) {
-      if (this.board[currentIndex].relatedCells[i] !== "0") {
-        relatedValues.push(this.board[currentIndex].relatedCells[i]);
+      if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
+        relatedValues.push( this.board[this.board[currentIndex].relatedCells[i]].digit );
       }
     }
 
