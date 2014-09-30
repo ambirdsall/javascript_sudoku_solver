@@ -50,6 +50,36 @@ Game.prototype = {
       i++;
     }
     return !emptyCellsFound;
+  },
+  printBoard: function() {
+    var that = this;
+    console.log("-------------------------------");
+    var i=0,
+        j=0,
+        printRow = function() {
+          var count = 9*(i/9|0) + 9;
+          //console.log(this)
+          rowToPrint="|";
+          for (i; i<count; i++) {
+            rowToPrint += " " + that.board[i].digit + " ";
+            if (i % 3 === 2) {
+              rowToPrint += "|";
+            }
+          }
+          console.log(rowToPrint);
+        };
+    for (j;j<3;j++) {
+      printRow();
+    }
+    console.log("-------------------------------")
+    for (j;j<6;j++) {
+      printRow();
+    }
+    console.log("-------------------------------")
+    for (j;j<9;j++) {
+      printRow();
+    }
+    console.log("-------------------------------")
   }
 }
 
