@@ -1,15 +1,16 @@
-function uniq(arr) {  // function name changed, but all logic curtesy of http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
-  var i,
-    len=arr.length,
-    out=[],
-    obj={};
+function uniq(arr) {  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+  var i = 0,
+      len = arr.length,
+      out = [],
+      obj = {};
 
-  for (i=0;i<len;i++) {
-    obj[arr[i]]=0;
+  for ( i; i<len; i++ ) {
+    obj[arr[i]] = 0;
   }
-  for (i in obj) {
+  for ( i in obj ) {
     out.push(i);
   }
+
   return out;
 }
 
@@ -170,6 +171,7 @@ Cell.prototype = {
   },
   getRelatedCellIndeces: function() {
     var relatedCells = [];
+
     relatedCells.push(this.getSameRow());
     relatedCells.push(this.getSameCol());
     relatedCells.push(this.getSameBox());
@@ -178,16 +180,19 @@ Cell.prototype = {
   getSameRow: function() {
     var i=0,
         row=[];
+
     for (i; i<81; i++) {
       if (i !== this.index && ((i/9|0) === (this.index/9|0))) {
         row.push(i);
       }
     }
+
     return row;
   },
   getSameCol: function() {
     var i=0,
         col=[];
+
     for (i; i<81; i++) {
       if (i !== this.index && ((i%9|0) === (this.index%9|0))) {
         col.push(i);
