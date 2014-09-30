@@ -24,26 +24,25 @@ function flattenAndUniq(arr) {
 }
 
 Game = function(boardString) {
-  this.boardSize = 81;
   this.makeBoard(boardString);
 }
 
 Game.prototype = {
   makeBoard: function(boardString) {
-    if (boardString.length !== this.boardSize) {
+    if (boardString.length !== 81) {
       throw "Invalid board string";
     }
 
     this.board = [];
 
-    for (var i=0; i<this.boardSize; i++) {
+    for (var i=0; i<81; i++) {
       this.board.push(new Cell(boardString.charAt(i), i))
     }
   },
   isSolved: function() {
     var emptyCellsFound = false,
         i = 0;
-    while (!emptyCellsFound && i<this.boardSize) {
+    while (!emptyCellsFound && i<81) {
       if (this.board[i].digit === "0") {
         return emptyCellsFound;
       }
