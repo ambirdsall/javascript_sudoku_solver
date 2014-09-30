@@ -82,9 +82,24 @@ Game.prototype = {
   },
   findCellValue: function(currentIndex) {
     var i = 0,
-        j = 0,
+        POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"];
+
+    relatedValues = this.buildRelatedValues(currentIndex);
+
+    if ( relatedValues.length === 8 ) {
+      for (i; i<9; i++) {
+        if ( relatedValues[i] !== POSSIBLE_VALUES[i] ) {
+          this.board[currentIndex].digit = POSSIBLE_VALUES[i];
+          return this.board[currentIndex].digit;
+        }
+      }
+    } else if ( relatedValues.length === 9 ) {
+      // NEXT FUCKIN' GUESS
+    }
+  },
+  buildRelatedValues: function(currentIndex) {
+    var i = 0,
         NUM_OF_RELATED_CELLS = 20,
-        POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
         relatedValues = [];
 
     for(i; i<NUM_OF_RELATED_CELLS; i++) {
@@ -93,16 +108,7 @@ Game.prototype = {
       }
     }
 
-    relatedValues = flattenAndUniq(relatedValues).sort();
-
-    if ( relatedValues.length === 8 ) {
-      for (j; j<9; j++) {
-        if ( relatedValues[j] !== POSSIBLE_VALUES[j] ) {
-          this.board[currentIndex].digit = POSSIBLE_VALUES[j];
-          return this.board[currentIndex].digit;
-        }
-      }
-    }
+    return flattenAndUniq(relatedValues).sort();
   },
   checkAllCells: function() {
     var i = 0,
