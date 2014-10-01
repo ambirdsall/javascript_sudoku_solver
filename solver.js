@@ -96,12 +96,16 @@ Game.prototype = {
   },
   findCellValue: function(currentIndex) {
     var possibleValues = this.buildPossibleValues(currentIndex);
-
     if ( possibleValues.length === 1 ) {
-          this.board[currentIndex].digit = possibleValues[0];
+      if ( possibleValues[0] === "" ) {
+        this.clearGuesses();
+        return;
+      }
+        this.board[currentIndex].digit = possibleValues[0];
+          if ( this.hasOwnProperty("hasGuesses") ) {
+            this.board[currentIndex].isGuess = true;
+          }
           return this.board[currentIndex].digit;
-    } else if ( possibleValues.length === 0 ) {
-      // NEXT FUCKIN' GUESS
     }
   },
   buildRelatedValues: function(currentIndex) {
@@ -145,16 +149,40 @@ Game.prototype = {
     for (i; i<81; i++) {
       if ( this.board[i].digit === "0" ) {
         possibleValues = this.buildPossibleValues(i);
-        this.board[i].digit = possibleValues[(Math.random()*possibleValues.length|0)];
-        this.board[i].isGuess = true;
+        if ( possibleValues[0] === '' ) {
+          this.clearGuesses();
+        } else {
+          this.board[i].digit = possibleValues[(Math.random()*possibleValues.length|0)];
+          this.board[i].isGuess = true;
+          this.hasGuesses = true;
+          console.log( "Cell number " + i );
+          console.log( "Possible values: " + possibleValues );
+          console.log( "GUESS: " + this.board[i].digit );
+          return;
+        }
       } else if ( i === 80 ) {
         i = -1;
       }
     }
   },
+  clearGuesses: function() {
+    var i = 0;
+
+    for (i; i<81; i++) {
+      if ( this.board[i].hasOwnProperty("isGuess") ) {
+        this.board[i].digit = "0";
+        delete this.board[i].isGuess;
+      }
+    }
+
+    delete this.hasGuesses;
+    console.log( "------------- NOPE -------------" );
+  },
   solve: function() {
     while ( !this.isSolved() ){
-      this.checkAllCells();
+      if ( !this.checkAllCells() ) {
+        this.guessArbitraryEmptyCell()
+      }
     }
   }
 }
