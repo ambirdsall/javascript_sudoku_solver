@@ -35,7 +35,7 @@ function diffArrays (A, B) { //http://www.deepakg.com/prog/2009/01/ruby-like-dif
 
 Game = function(boardString) {
   this.makeBoard(boardString);
-}
+};
 
 Game.prototype = {
   makeBoard: function(boardString) {
@@ -231,13 +231,15 @@ Cell.prototype = {
   getSameBox: function() {
     var i=0,
         box=[];
+
     for (i; i<81; i++) {
       if (i !== this.index && (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) && (((i%9|0)/3|0) === ((this.index%9|0)/3|0))) {
         box.push(i);
       }
     }
+
     return box;
   }
-}
+};
 
 testGame = new Game("096040001100060004504810390007950043030080000405023018010630059059070830003590007");
