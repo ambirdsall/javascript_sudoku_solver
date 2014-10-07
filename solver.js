@@ -176,26 +176,38 @@ Game.prototype = {
     }
 
     delete this.hasGuesses;
-    console.log( "------------- NOPE -------------" );
   },
   solve: function() {
     while ( !this.isSolved() ){
       if ( !this.checkAllCells() ) {
-        this.guessArbitraryEmptyCell()
+        this.guessNextEmptyCell();
       }
     }
   }
-}
+};
 
 Cell = function(digit, index) {
   this.digit = digit;
   this.index = index;
   this.getRelatedCellIndeces();
-}
+};
 
 Cell.prototype = {
   isEmpty: function() {
     return this.digit === "0" ? true : false;
+  },
+  guessNext: function(possibleValues) {
+    var indexOfLastGuess,
+        indexOfNewGuess;
+    if ( this.hasOwnProperty("lastGuess") ) {
+      indexOfLastGuess = possibleValues.indexOf(this.lastGuess);
+      indexOfNewGuess = (indexOfLastGuess === possibleValues.length - 1 ? 0 : indexOfLastGuess + 1);
+      this.digit = possibleValues[indexOfNewGuess];
+    } else {
+      this.digit = possibleValues[0];
+    }
+    this.isGuess = true;
+    this.lastGuess = this.digit;
   },
   getRelatedCellIndeces: function() {
     var relatedCells = [];
