@@ -56,7 +56,7 @@ Game.prototype = {
         i = 0;
 
     while ( !emptyCellsFound && i<81 ) {
-      if (this.board[i].digit === "0") {
+      if ( this.board[i].digit === "0" ) {
         return emptyCellsFound;
       }
       i++;
@@ -74,7 +74,7 @@ Game.prototype = {
               rowToPrint = "|";
           for (i; i<count; i++) {
             rowToPrint += " " + that.board[i].digit + " ";
-            if (i % 3 === 2) {
+            if ( i % 3 === 2 ) {
               rowToPrint += "|";
             }
           }
@@ -218,7 +218,7 @@ Cell.prototype = {
         row=[];
 
     for (i; i<81; i++) {
-      if (i !== this.index && ((i/9|0) === (this.index/9|0))) {
+      if ( i !== this.index && ((i/9|0) === (this.index/9|0)) ) {
         row.push(i);
       }
     }
@@ -230,7 +230,7 @@ Cell.prototype = {
         col=[];
 
     for (i; i<81; i++) {
-      if (i !== this.index && ((i%9|0) === (this.index%9|0))) {
+      if ( i !== this.index && ((i%9|0) === (this.index%9|0)) ) {
         col.push(i);
       }
     }
@@ -241,7 +241,9 @@ Cell.prototype = {
         box=[];
 
     for (i; i<81; i++) {
-      if (i !== this.index && (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) && (((i%9|0)/3|0) === ((this.index%9|0)/3|0))) {
+      if ( i !== this.index &&
+      (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) &&
+      (((i%9|0)/3|0) === ((this.index%9|0)/3|0)) ) {
         box.push(i);
       }
     }
