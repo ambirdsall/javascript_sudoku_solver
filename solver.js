@@ -1,36 +1,38 @@
-function uniq(arr) {  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
-  var i = 0,
-      len = arr.length,
-      out = [],
-      obj = {};
+var util = {
+  uniq: function(arr) {  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+    var i = 0,
+    len = arr.length,
+    out = [],
+    obj = {};
 
-  for ( i; i<len; i++ ) {
-    obj[arr[i]] = 0;
-  }
-  for ( i in obj ) {
-    out.push(i);
-  }
+    for ( i; i<len; i++ ) {
+      obj[arr[i]] = 0;
+    }
+    for ( i in obj ) {
+      out.push(i);
+    }
 
-  return out;
-}
+    return out;
+  },
 
-function flatten(arr) {
-  return arr.reduce(function(a,b) {
-    return a.concat(b);
-  });
-}
+  flatten: function(arr) {
+    return arr.reduce(function(a,b) {
+      return a.concat(b);
+    });
+  },
 
-function flattenAndUniq(arr) {
-  return uniq.call(this, flatten(arr));
-}
+  flattenAndUniq: function(arr) {
+    return this.uniq.call(this, this.flatten(arr));
+  },
 
-function diffArrays (A, B) { //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
+  diffArrays: function (A, B) { //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
     var strA = ":" + A.join("::") + ":",
-        strB = ":" +  B.join(":|:") + ":",
-        reg = new RegExp("(" + strB + ")","gi"),
-        strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
+    strB = ":" +  B.join(":|:") + ":",
+    reg = new RegExp("(" + strB + ")","gi"),
+    strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
 
     return strDiff.split("::");
+  }
 }
 
 Game = function(boardString) {
@@ -53,7 +55,7 @@ Game.prototype = {
   },
   isSolved: function() {
     var emptyCellsFound = false,
-        i = 0;
+    i = 0;
 
     while ( !emptyCellsFound && i<81 ) {
       if ( this.board[i].digit === "0" ) {
@@ -66,20 +68,20 @@ Game.prototype = {
   },
   printBoard: function() {
     var that = this,
-        divider = "-------------------------------",
-        i = 0,
-        j = 0,
-        printRow = function() {
-          var count = 9*(i/9|0) + 9,
-              rowToPrint = "|";
-          for (i; i<count; i++) {
-            rowToPrint += " " + that.board[i].digit + " ";
-            if ( i % 3 === 2 ) {
-              rowToPrint += "|";
-            }
-          }
-          console.log( rowToPrint );
-        };
+    divider = "-------------------------------",
+    i = 0,
+    j = 0,
+    printRow = function() {
+      var count = 9*(i/9|0) + 9,
+      rowToPrint = "|";
+      for (i; i<count; i++) {
+        rowToPrint += " " + that.board[i].digit + " ";
+        if ( i % 3 === 2 ) {
+          rowToPrint += "|";
+        }
+      }
+      console.log( rowToPrint );
+    };
     console.log( divider );
     for (j; j<3; j++) {
       printRow();
@@ -101,17 +103,17 @@ Game.prototype = {
         this.clearGuesses();
         return;
       }
-        this.board[currentIndex].digit = possibleValues[0];
-          if ( this.hasOwnProperty("hasGuesses") ) {
-            this.board[currentIndex].isGuess = true;
-          }
-          return this.board[currentIndex].digit;
+      this.board[currentIndex].digit = possibleValues[0];
+      if ( this.hasOwnProperty("hasGuesses") ) {
+        this.board[currentIndex].isGuess = true;
+      }
+      return this.board[currentIndex].digit;
     }
   },
   buildRelatedValues: function(currentIndex) {
     var i = 0,
-        NUM_OF_RELATED_CELLS = 20,
-        relatedValues = [];
+    NUM_OF_RELATED_CELLS = 20,
+    relatedValues = [];
 
     for(i; i<NUM_OF_RELATED_CELLS; i++) {
       if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
@@ -119,13 +121,13 @@ Game.prototype = {
       }
     }
 
-    return flattenAndUniq(relatedValues).sort();
+    return util.flattenAndUniq(relatedValues).sort();
   },
   buildPossibleValues: function(currentIndex) {
     var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
-        relatedValues = this.buildRelatedValues(currentIndex);
+    relatedValues = this.buildRelatedValues(currentIndex);
 
-    return diffArrays(POSSIBLE_VALUES, relatedValues);
+    return util.diffArrays(POSSIBLE_VALUES, relatedValues);
   },
   checkAllCells: function() {
     var i = 0,
@@ -143,7 +145,7 @@ Game.prototype = {
   },
   guessNextEmptyCell: function() {
     var i = (this.hasOwnProperty("lastGuessedCell") ? this.lastGuessedCell : 0),
-        possibleValues;
+    possibleValues;
 
     for (i; i<81; i++) {
       if ( this.board[i].digit === "0" ) {
@@ -194,7 +196,7 @@ Cell.prototype = {
   },
   guessNext: function(possibleValues) {
     var indexOfLastGuess,
-        indexOfNewGuess;
+    indexOfNewGuess;
     if ( this.hasOwnProperty("lastGuess") ) {
       indexOfLastGuess = possibleValues.indexOf(this.lastGuess);
       indexOfNewGuess = (indexOfLastGuess === possibleValues.length - 1 ? 0 : indexOfLastGuess + 1);
@@ -211,11 +213,11 @@ Cell.prototype = {
     relatedCells.push(this.getSameRow());
     relatedCells.push(this.getSameCol());
     relatedCells.push(this.getSameBox());
-    this.relatedCells = flattenAndUniq(relatedCells);
+    this.relatedCells = util.flattenAndUniq(relatedCells);
   },
   getSameRow: function() {
     var i=0,
-        row=[];
+    row=[];
 
     for (i; i<81; i++) {
       if ( i !== this.index && ((i/9|0) === (this.index/9|0)) ) {
@@ -227,7 +229,7 @@ Cell.prototype = {
   },
   getSameCol: function() {
     var i=0,
-        col=[];
+    col=[];
 
     for (i; i<81; i++) {
       if ( i !== this.index && ((i%9|0) === (this.index%9|0)) ) {
@@ -238,12 +240,12 @@ Cell.prototype = {
   },
   getSameBox: function() {
     var i=0,
-        box=[];
+    box=[];
 
     for (i; i<81; i++) {
       if ( i !== this.index &&
-      (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) &&
-      (((i%9|0)/3|0) === ((this.index%9|0)/3|0)) ) {
+          (((i/9|0)/3|0) === ((this.index/9|0)/3|0)) &&
+          (((i%9|0)/3|0) === ((this.index%9|0)/3|0)) ) {
         box.push(i);
       }
     }
