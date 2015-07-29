@@ -1,5 +1,6 @@
 var util = {
-  uniq: function(arr) {  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+  uniq: function(arr) {
     var i = 0,
     len = arr.length,
     out = [],
@@ -25,7 +26,8 @@ var util = {
     return this.uniq.call(this, this.flatten(arr));
   },
 
-  diffArrays: function (A, B) { //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
+  //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
+  diffArrays: function (A, B) {
     var strA = ":" + A.join("::") + ":",
     strB = ":" +  B.join(":|:") + ":",
     reg = new RegExp("(" + strB + ")","gi"),
@@ -36,23 +38,28 @@ var util = {
 }
 
 Game = function(boardString) {
-  this.makeBoard(boardString);
+  if ( boardString.length !== 81 ) {
+    throw "Invalid board string";
+  }
+
+  var i = 0;
+
+  this.board = [];
+
+  for (i; i<81; i++) {
+    this.board.push(new Cell(boardString.charAt(i), i));
+  }
 };
 
 Game.prototype = {
-  makeBoard: function(boardString) {
-    if ( boardString.length !== 81 ) {
-      throw "Invalid board string";
-    }
-
-    var i = 0;
-
-    this.board = [];
-
-    for (i; i<81; i++) {
-      this.board.push(new Cell(boardString.charAt(i), i));
+  solve: function() {
+    while ( !this.isSolved() ){
+      if ( !this.checkAllCells() ) {
+        this.guessNextEmptyCell();
+      }
     }
   },
+
   isSolved: function() {
     var emptyCellsFound = false,
     i = 0;
@@ -66,6 +73,92 @@ Game.prototype = {
 
     return !emptyCellsFound;
   },
+
+  checkAllCells: function() {
+    var i = 0,
+    anyChanges = false;
+
+    for (i; i<81; i++) {
+      if( this.board[i].digit === "0" ) {
+        if( this.findCellValue(i) ) {
+          anyChanges = i;
+        }
+      }
+    }
+
+    return anyChanges;
+  },
+
+  guessNextEmptyCell: function() {
+    var i = (this.hasOwnProperty("lastGuessedCell") ? this.lastGuessedCell : 0),
+    possibleValues;
+
+    for (i; i<81; i++) {
+      if ( this.board[i].digit === "0" ) {
+        possibleValues = this.buildPossibleValues(i);
+        if ( possibleValues[0] === '' ) {
+          this.clearGuesses();
+        } else {
+          this.board[i].guessNext(possibleValues);
+          this.hasGuesses = true;
+          this.lastGuessedCell = i;
+          return;
+        }
+      } else if ( i === 80 ) {
+        i = -1;
+      }
+    }
+  },
+
+  findCellValue: function(currentIndex) {
+    var possibleValues = this.buildPossibleValues(currentIndex);
+    if ( possibleValues.length === 1 ) {
+      if ( possibleValues[0] === "" ) {
+        this.clearGuesses();
+        return;
+      }
+      this.board[currentIndex].digit = possibleValues[0];
+      if ( this.hasOwnProperty("hasGuesses") ) {
+        this.board[currentIndex].isGuess = true;
+      }
+      return this.board[currentIndex].digit;
+    }
+  },
+
+  buildRelatedValues: function(currentIndex) {
+    var i = 0,
+    NUM_OF_RELATED_CELLS = 20,
+    relatedValues = [];
+
+    for(i; i<NUM_OF_RELATED_CELLS; i++) {
+      if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
+        relatedValues.push( this.board[this.board[currentIndex].relatedCells[i]].digit );
+      }
+    }
+
+    return util.flattenAndUniq(relatedValues).sort();
+  },
+
+  buildPossibleValues: function(currentIndex) {
+    var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
+    relatedValues = this.buildRelatedValues(currentIndex);
+
+    return util.diffArrays(POSSIBLE_VALUES, relatedValues);
+  },
+
+  clearGuesses: function() {
+    var i = 0;
+
+    for (i; i<81; i++) {
+      if ( this.board[i].hasOwnProperty("isGuess") ) {
+        this.board[i].digit = "0";
+        delete this.board[i].isGuess;
+      }
+    }
+
+    delete this.hasGuesses;
+  },
+
   printBoard: function() {
     var that = this,
     divider = "-------------------------------",
@@ -95,92 +188,6 @@ Game.prototype = {
       printRow();
     }
     console.log( divider );
-  },
-  findCellValue: function(currentIndex) {
-    var possibleValues = this.buildPossibleValues(currentIndex);
-    if ( possibleValues.length === 1 ) {
-      if ( possibleValues[0] === "" ) {
-        this.clearGuesses();
-        return;
-      }
-      this.board[currentIndex].digit = possibleValues[0];
-      if ( this.hasOwnProperty("hasGuesses") ) {
-        this.board[currentIndex].isGuess = true;
-      }
-      return this.board[currentIndex].digit;
-    }
-  },
-  buildRelatedValues: function(currentIndex) {
-    var i = 0,
-    NUM_OF_RELATED_CELLS = 20,
-    relatedValues = [];
-
-    for(i; i<NUM_OF_RELATED_CELLS; i++) {
-      if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
-        relatedValues.push( this.board[this.board[currentIndex].relatedCells[i]].digit );
-      }
-    }
-
-    return util.flattenAndUniq(relatedValues).sort();
-  },
-  buildPossibleValues: function(currentIndex) {
-    var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
-    relatedValues = this.buildRelatedValues(currentIndex);
-
-    return util.diffArrays(POSSIBLE_VALUES, relatedValues);
-  },
-  checkAllCells: function() {
-    var i = 0,
-    anyChanges = false;
-
-    for (i; i<81; i++) {
-      if( this.board[i].digit === "0" ) {
-        if( this.findCellValue(i) ) {
-          anyChanges = i;
-        }
-      }
-    }
-
-    return anyChanges;
-  },
-  guessNextEmptyCell: function() {
-    var i = (this.hasOwnProperty("lastGuessedCell") ? this.lastGuessedCell : 0),
-    possibleValues;
-
-    for (i; i<81; i++) {
-      if ( this.board[i].digit === "0" ) {
-        possibleValues = this.buildPossibleValues(i);
-        if ( possibleValues[0] === '' ) {
-          this.clearGuesses();
-        } else {
-          this.board[i].guessNext(possibleValues);
-          this.hasGuesses = true;
-          this.lastGuessedCell = i;
-          return;
-        }
-      } else if ( i === 80 ) {
-        i = -1;
-      }
-    }
-  },
-  clearGuesses: function() {
-    var i = 0;
-
-    for (i; i<81; i++) {
-      if ( this.board[i].hasOwnProperty("isGuess") ) {
-        this.board[i].digit = "0";
-        delete this.board[i].isGuess;
-      }
-    }
-
-    delete this.hasGuesses;
-  },
-  solve: function() {
-    while ( !this.isSolved() ){
-      if ( !this.checkAllCells() ) {
-        this.guessNextEmptyCell();
-      }
-    }
   }
 };
 
