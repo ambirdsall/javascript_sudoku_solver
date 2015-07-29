@@ -1,42 +1,3 @@
-var util = {
-  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
-  uniq: function(arr) {
-    var i = 0,
-    len = arr.length,
-    out = [],
-    obj = {};
-
-    for ( i; i<len; i++ ) {
-      obj[arr[i]] = 0;
-    }
-    for ( i in obj ) {
-      out.push(i);
-    }
-
-    return out;
-  },
-
-  flatten: function(arr) {
-    return arr.reduce(function(a,b) {
-      return a.concat(b);
-    });
-  },
-
-  flattenAndUniq: function(arr) {
-    return this.uniq.call(this, this.flatten(arr));
-  },
-
-  //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
-  diffArrays: function (A, B) {
-    var strA = ":" + A.join("::") + ":",
-    strB = ":" +  B.join(":|:") + ":",
-    reg = new RegExp("(" + strB + ")","gi"),
-    strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
-
-    return strDiff.split("::");
-  }
-}
-
 Game = function(boardString) {
   if ( boardString.length !== 81 ) {
     throw "Invalid board string";
@@ -260,6 +221,45 @@ Cell.prototype = {
     return box;
   }
 };
+
+var util = {
+  //http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+  uniq: function(arr) {
+    var i = 0,
+    len = arr.length,
+    out = [],
+    obj = {};
+
+    for ( i; i<len; i++ ) {
+      obj[arr[i]] = 0;
+    }
+    for ( i in obj ) {
+      out.push(i);
+    }
+
+    return out;
+  },
+
+  flatten: function(arr) {
+    return arr.reduce(function(a,b) {
+      return a.concat(b);
+    });
+  },
+
+  flattenAndUniq: function(arr) {
+    return this.uniq.call(this, this.flatten(arr));
+  },
+
+  //http://www.deepakg.com/prog/2009/01/ruby-like-difference-between-two-arrays-in-javascript/
+  diffArrays: function (A, B) {
+    var strA = ":" + A.join("::") + ":",
+    strB = ":" +  B.join(":|:") + ":",
+    reg = new RegExp("(" + strB + ")","gi"),
+    strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
+
+    return strDiff.split("::");
+  }
+}
 
 easy = new Game("005030081902850060600004050007402830349760005008300490150087002090000600026049503");
 console.log("For first cell, isEmpty should return true: " + easy.board[0].isEmpty());
