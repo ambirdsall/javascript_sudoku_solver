@@ -49,11 +49,21 @@
   box-sizing: border-box;
 }
 
-.board {
+.board__main {
   /* board is 9/17 of total page width, centered */
-  width: 52.941176470588%;
+  width: 60%;
   margin: auto;
   border-collapse: collapse;
+}
+.board__left, .board__right { width: 20%; }
+
+@media only screen and (max-width: 600px) {
+  .board__main {
+    width: 100%;
+  }
+  .board__left, .board__right {
+    width: 100%;
+  }
 }
 
 .cell {
@@ -65,6 +75,4 @@
   margin: 0;
 }
 
-.cell > input {
-  width: 100%;
-}
+.cell > input { width: 100%; height: 100%; }

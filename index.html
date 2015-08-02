@@ -5,278 +5,290 @@
     <title>Sudoku is a Numbers Game</title>
     <link rel="stylesheet" href="solver.css">
   </head>
-  <body>
-    <div class="container">
-      <form>
-        <table class="board">
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-00" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-01" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-02" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-03" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-04" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-05" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-06" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-07" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-08" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-09" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-10" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-11" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-12" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-13" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-14" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-15" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-16" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-17" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-18" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-19" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-20" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-21" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-22" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-23" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-24" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-25" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-26" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-27" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-28" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-29" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-30" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-31" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-32" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-33" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-34" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-35" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-36" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-37" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-38" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-39" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-40" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-41" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-42" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-43" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-44" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-45" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-46" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-47" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-48" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-49" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-50" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-51" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-52" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-53" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-54" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-55" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-56" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-57" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-58" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-59" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-60" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-61" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-62" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-63" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-64" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-65" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-66" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-67" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-68" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-69" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-70" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-71" value="0">
-            </td>
-          </tr>
-          <tr>
-            <td class="cell">
-              <input type="text" id="cell-72" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-73" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-74" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-75" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-76" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-77" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-78" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-79" value="0">
-            </td>
-            <td class="cell">
-              <input type="text" id="cell-80" value="0">
-            </td>
-          </tr>
-        </table>
-        <div class="control-panel">
-          <button>Solve</button>
-          <button>Clear Board</button>
-        </div>
-      </form>
-    </div>
+  <body class="block-group">
+    <form>
+      <div class="board__left block">
+          <div class="board__left__control-group block-group">
+            <select id="puzzle-selector" class="block" name="Puzzles">
+              <option value="003020600900305001001806400008102900700000008006708200002609500800203009005010300 ">003020600900305001001806400008102900700000008006708200002609500800203009005010300</option>
+              <option value="200080300060070084030500209000105408000000000402706000301007040720040060004010003">P200080300060070084030500209000105408000000000402706000301007040720040060004010003</option>
+              <option value="000000907000420180000705026100904000050000040000507009920108000034059000507000000">P000000907000420180000705026100904000050000040000507009920108000034059000507000000</option>
+              <option value="030050040008010500460000012070502080000603000040109030250000098001020600080060020">P030050040008010500460000012070502080000603000040109030250000098001020600080060020</option>
+            </select>
+            <button class="bloc">Load Puzzle</button>
+          </div>
+      </div>
+      <table class="board__main block">
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-00" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-01" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-02" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-03" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-04" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-05" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-06" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-07" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-08" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-09" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-10" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-11" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-12" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-13" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-14" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-15" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-16" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-17" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-18" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-19" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-20" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-21" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-22" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-23" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-24" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-25" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-26" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-27" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-28" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-29" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-30" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-31" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-32" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-33" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-34" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-35" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-36" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-37" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-38" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-39" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-40" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-41" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-42" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-43" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-44" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-45" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-46" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-47" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-48" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-49" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-50" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-51" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-52" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-53" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-54" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-55" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-56" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-57" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-58" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-59" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-60" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-61" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-62" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-63" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-64" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-65" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-66" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-67" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-68" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-69" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-70" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-71" value="0">
+          </td>
+        </tr>
+        <tr>
+          <td class="cell">
+            <input type="text" id="cell-72" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-73" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-74" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-75" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-76" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-77" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-78" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-79" value="0">
+          </td>
+          <td class="cell">
+            <input type="text" id="cell-80" value="0">
+          </td>
+        </tr>
+      </table>
+      <div class="board__right block">
+        <button>Solve</button>
+        <button>Clear Board</button>
+      </div>
+    </form>
     <script src="solver.js"></script>
   </body>
 </html>
+
+
+
