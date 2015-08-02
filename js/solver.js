@@ -260,18 +260,3 @@ var util = {
     return strDiff.split("::");
   }
 }
-
-easy = new Game("005030081902850060600004050007402830349760005008300490150087002090000600026049503");
-console.log("For first cell, isEmpty should return true: " + easy.board[0].isEmpty());
-console.log("Before solving, isSolved should return false: " + easy.isSolved());
-console.log("For first cell, getSameRow should return [1,2,3,4,5,6,7,8]: " + (easy.board[0].getSameRow().toString() === "1,2,3,4,5,6,7,8"));
-console.log("For the first cell, relatedCells should equal [1,2,3,4,5,6,7,8,9,10,11,18,19,20,27,36,45,54,63,72]: " + (easy.board[0].relatedCells.toString() === "1,2,3,4,5,6,7,8,9,10,11,18,19,20,27,36,45,54,63,72"));
-console.log( "EASY:" );
-easy.printBoard();
-easy.solve();
-easy.printBoard();
-console.log( "HARD:" );
-hard = new Game("850002400720000009004000000000107002305000900040000000000080070017000000000036040");
-hard.printBoard();
-hard.solve();
-hard.printBoard();
