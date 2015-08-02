@@ -1,4 +1,4 @@
-Game = function(boardString) {
+var Game = function(boardString) {
   if ( boardString.length !== 81 ) {
     throw "Invalid board string";
   }
@@ -73,6 +73,7 @@ Game.prototype = {
 
   findCellValue: function(currentIndex) {
     var possibleValues = this.buildPossibleValues(currentIndex);
+
     if ( possibleValues.length === 1 ) {
       if ( possibleValues[0] === "" ) {
         this.clearGuesses();
@@ -88,8 +89,8 @@ Game.prototype = {
 
   buildRelatedValues: function(currentIndex) {
     var i = 0,
-    NUM_OF_RELATED_CELLS = 20,
-    relatedValues = [];
+        NUM_OF_RELATED_CELLS = 20,
+        relatedValues = [];
 
     for(i; i<NUM_OF_RELATED_CELLS; i++) {
       if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
@@ -102,7 +103,7 @@ Game.prototype = {
 
   buildPossibleValues: function(currentIndex) {
     var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
-    relatedValues = this.buildRelatedValues(currentIndex);
+        relatedValues = this.buildRelatedValues(currentIndex);
 
     return util.diffArrays(POSSIBLE_VALUES, relatedValues);
   },
@@ -119,40 +120,9 @@ Game.prototype = {
 
     delete this.hasGuesses;
   },
-
-  printBoard: function() {
-    var that = this,
-    divider = "-------------------------------",
-    i = 0,
-    j = 0,
-    printRow = function() {
-      var count = 9*(i/9|0) + 9,
-      rowToPrint = "|";
-      for (i; i<count; i++) {
-        rowToPrint += " " + that.board[i].digit + " ";
-        if ( i % 3 === 2 ) {
-          rowToPrint += "|";
-        }
-      }
-      console.log( rowToPrint );
-    };
-    console.log( divider );
-    for (j; j<3; j++) {
-      printRow();
-    }
-    console.log( divider );
-    for (j; j<6; j++) {
-      printRow();
-    }
-    console.log( divider );
-    for (j; j<9; j++) {
-      printRow();
-    }
-    console.log( divider );
-  }
 };
 
-Cell = function(digit, index) {
+var Cell = function(digit, index) {
   this.digit = digit;
   this.index = index;
   this.getRelatedCellIndeces();
@@ -164,7 +134,7 @@ Cell.prototype = {
   },
   guessNext: function(possibleValues) {
     var indexOfLastGuess,
-    indexOfNewGuess;
+        indexOfNewGuess;
     if ( this.hasOwnProperty("lastGuess") ) {
       indexOfLastGuess = possibleValues.indexOf(this.lastGuess);
       indexOfNewGuess = (indexOfLastGuess === possibleValues.length - 1 ? 0 : indexOfLastGuess + 1);
