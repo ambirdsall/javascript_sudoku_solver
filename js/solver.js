@@ -230,3 +230,57 @@ var util = {
     return strDiff.split("::");
   }
 }
+//==========================SOLVE THAT SHIT=====================================
+// Takes a string of 81 characters, where each is a numerical digit.
+// Finds the appropriate cells in the DOM and sets each value to the
+// corresponding digit.
+//
+// If passed an optional second argument that's truthy, each non-empty cell will
+// have the class "red" added with its new digit.
+function setBoard(gameBoard) {
+  // 81 is a bit of a magic number, but it's also a really standard, reliable
+  // value: sudoku is played on a 9x9 board and, well, you do the math.
+  for (var i=0; i < 81; ++i) {
+    // find table cell by index/id
+    var cellID = "#cell-" + ("00" + i).slice(-2);
+
+    // unless a second argument was given, wipe any and all "red" classiness
+    // amongst the cells
+    if (!arguments[1]) {
+      $(cellID).removeClass("red");
+
+    // if $(cellID).val() isn't truthy, it's an empty string, i.e., no value has
+    // been set, either by the user or preloaded. If you get into this branch,
+    // the "make new digits red" argument has been given and it's a new digit.
+    } else if (!$(cellID).val()) {
+      $(cellID).addClass("red");
+    }
+    // set table cell entry to game cell value
+    $(cellID).val(gameBoard[i].digit !== "0" ? gameBoard[i].digit : "");
+  }
+}
+
+var emptyGame      = new Game("000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+    currentGame    = emptyGame,
+    puzzleSelector = $("#puzzle-selector"),
+    loadButton     = $("#load-button"),
+    clearButton    = $("#clear-button"),
+    solveButton    = $("#solve-button");
+
+loadButton.click(function(e) {
+  e.preventDefault();
+  var newBoard = puzzleSelector.val();
+  currentGame = new Game(newBoard);
+  setBoard(currentGame.board);
+});
+
+solveButton.click(function(e) {
+  e.preventDefault();
+  currentGame.solve();
+  setBoard(currentGame.board, true);
+});
+
+clearButton.click(function(e) {
+  e.preventDefault();
+  setBoard(emptyGame.board);
+});
