@@ -32,6 +32,11 @@ Game.prototype = {
   //     deterministically
   //   * if any can, repeat until either the board is solved or no more cell
   //     values can be found without guessing
+  //   * once all certain values have been exhausted, guess the first potential
+  //     value of the first empty cell and solve on, marking the guess and all
+  //     values that follow with {isGuess: true}. The guess is cached, so if it
+  //     proves incorrect, after all cells where (isGuess) have been wiped, the
+  //     program can continue with the next potiential value.
   solve: function() {
     while ( !this.isSolved() ){
       if ( !this.checkAllCells() ) {
