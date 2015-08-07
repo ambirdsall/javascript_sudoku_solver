@@ -1,4 +1,4 @@
-var Game = function(boardString) {
+function Game(boardString) {
   if ( boardString.length !== 81 ) {
     throw "Invalid board string";
   }
@@ -122,7 +122,7 @@ Game.prototype = {
   },
 };
 
-var Cell = function(digit, index) {
+function Cell(digit, index) {
   this.digit = digit;
   this.index = index;
   this.getRelatedCellIndeces();
