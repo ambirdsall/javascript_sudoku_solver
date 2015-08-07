@@ -1,18 +1,37 @@
+// Constructor. Takes a string of digits 0-9, representing a sudoku game in any
+// stage of completion. 0s represent empty cells. Indeces 0-8 form the first row
+// of the board; 9-17 the second row; and so on.
 function Game(boardString) {
+  var i = 0;
+  this.board = [];
+
   if ( boardString.length !== 81 ) {
     throw "Invalid board string";
   }
-
-  var i = 0;
-
-  this.board = [];
 
   for (i; i<81; i++) {
     this.board.push(new Cell(boardString.charAt(i), i));
   }
 };
 
+// Constructor. Each cell is instantiated with a digit 0-9 and an index 0-80.
+// Based on that index, which represents its position on a sudoku board, a list
+// of other indeces is made, comprising the locations of every cell in the same
+// row || column || box. I.e., all the cells whose values are mutually exclusive.
+// Having this list for every cell is necessary and sufficient to solve for a
+// cell's value.
+function Cell(digit, index) {
+  this.digit = digit;
+  this.index = index;
+  this.getRelatedCellIndeces();
+};
+
 Game.prototype = {
+  // Until the board is solved:
+  //   * sweeps all 81 cells, trying to see if any can be calculated
+  //     deterministically
+  //   * if any can, repeat until either the board is solved or no more cell
+  //     values can be found without guessing
   solve: function() {
     while ( !this.isSolved() ){
       if ( !this.checkAllCells() ) {
@@ -21,20 +40,9 @@ Game.prototype = {
     }
   },
 
-  isSolved: function() {
-    var emptyCellsFound = false,
-    i = 0;
-
-    while ( !emptyCellsFound && i<81 ) {
-      if ( this.board[i].digit === "0" ) {
-        return emptyCellsFound;
-      }
-      i++;
-    }
-
-    return !emptyCellsFound;
-  },
-
+  // Checks each cell in order. If any is empty, tries to findCellValue; if
+  // successful, sets anyChanges to true.
+  // returns true if any cells were successfully changed; otherwise false.
   checkAllCells: function() {
     var i = 0,
     anyChanges = false;
@@ -42,7 +50,7 @@ Game.prototype = {
     for (i; i<81; i++) {
       if( this.board[i].digit === "0" ) {
         if( this.findCellValue(i) ) {
-          anyChanges = i;
+          anyChanges = true;
         }
       }
     }
@@ -50,6 +58,37 @@ Game.prototype = {
     return anyChanges;
   },
 
+  // For the given cell, it determines all the values that are "available" to it:
+  // a list of the non-zero digits in the same column, row, or box is compiled;
+  // that set is subtracted from the set of digits 0-9. The remaining set is the
+  // only possible values. If there's only one, that's the answer.
+  //
+  // The program doesn't start guessing cells until every cell that can be
+  // determined for sure has been found; and once a guess has been made, any
+  // further cell values you deduce are contingent on a guess being correct.
+  // Because of that, every cell value that gets calculated OR guessed after the
+  // first guess has been made is marked a guess, the easier to wipe clean if it
+  // turns out there are wrong values filled in.
+  findCellValue: function(currentIndex) {
+    var possibleValues = this.buildPossibleValues(currentIndex);
+
+    if ( possibleValues.length === 1 ) {
+      if ( possibleValues[0] === "" ) {
+        this.clearGuesses();
+        return;
+      }
+      this.board[currentIndex].digit = possibleValues[0];
+      if ( this.hasOwnProperty("hasGuesses") ) {
+        this.board[currentIndex].isGuess = true;
+      }
+      return this.board[currentIndex].digit;
+    }
+  },
+
+  // Checks each cell, starting at the index of the last-guessed cell or 0 if
+  // there have been no guesses yet, until the first empty cell is found. That
+  // cell's possible values are compiled, and the next guess is made
+  // (cf. Cell.prototype.guessNext)
   guessNextEmptyCell: function() {
     var i = (this.hasOwnProperty("lastGuessedCell") ? this.lastGuessedCell : 0),
     possibleValues;
@@ -71,20 +110,21 @@ Game.prototype = {
     }
   },
 
-  findCellValue: function(currentIndex) {
-    var possibleValues = this.buildPossibleValues(currentIndex);
+  // Checks each cell in order. If any is empty (digit === "0"), isSolved
+  // immediately returns false; otherwise it continues to check. If no empty
+  // cell is found, returns true.
+  isSolved: function() {
+    var emptyCellsFound = false,
+    i = 0;
 
-    if ( possibleValues.length === 1 ) {
-      if ( possibleValues[0] === "" ) {
-        this.clearGuesses();
-        return;
+    while ( !emptyCellsFound && i<81 ) {
+      if ( this.board[i].digit === "0" ) {
+        return emptyCellsFound;
       }
-      this.board[currentIndex].digit = possibleValues[0];
-      if ( this.hasOwnProperty("hasGuesses") ) {
-        this.board[currentIndex].isGuess = true;
-      }
-      return this.board[currentIndex].digit;
+      i++;
     }
+
+    return true;
   },
 
   buildRelatedValues: function(currentIndex) {
@@ -122,16 +162,11 @@ Game.prototype = {
   },
 };
 
-function Cell(digit, index) {
-  this.digit = digit;
-  this.index = index;
-  this.getRelatedCellIndeces();
-};
-
 Cell.prototype = {
   isEmpty: function() {
     return this.digit === "0" ? true : false;
   },
+
   guessNext: function(possibleValues) {
     var indexOfLastGuess,
         indexOfNewGuess;
@@ -145,6 +180,7 @@ Cell.prototype = {
     this.isGuess = true;
     this.lastGuess = this.digit;
   },
+
   getRelatedCellIndeces: function() {
     var relatedCells = [];
 
@@ -153,6 +189,7 @@ Cell.prototype = {
     relatedCells.push(this.getSameBox());
     this.relatedCells = util.flattenAndUniq(relatedCells);
   },
+
   getSameRow: function() {
     var i=0,
     row=[];
@@ -165,6 +202,7 @@ Cell.prototype = {
 
     return row;
   },
+
   getSameCol: function() {
     var i=0,
     col=[];
@@ -176,6 +214,7 @@ Cell.prototype = {
     }
     return col;
   },
+
   getSameBox: function() {
     var i=0,
     box=[];
