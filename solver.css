@@ -101,6 +101,8 @@ header {
   font-size: 3em;
 }
 
-.red {
-  color: #a00;
-}
+.red { color: #a00; }
+
+.footer { text-align: center; }
+
+.copyright { font-size: 0.8em; }
