@@ -135,7 +135,12 @@ Game.prototype = {
   buildRelatedValues: function(currentIndex) {
     var i = 0,
         NUM_OF_RELATED_CELLS = 20,
-        relatedValues = [];
+        // relatedValues containing "0" is something of a hack:
+        // as far as util.diffArrays is concerned,
+        //   ["1".."9"] - ["0","1"] === ["1".."9"] - ["1"]
+        // but
+        //   ["1".."9"] - [] === ["123456789"]
+        relatedValues = ["0"];
 
     for(i; i<NUM_OF_RELATED_CELLS; i++) {
       if ( this.board[this.board[currentIndex].relatedCells[i]].digit !== "0" ) {
@@ -149,7 +154,6 @@ Game.prototype = {
   buildPossibleValues: function(currentIndex) {
     var POSSIBLE_VALUES = ["1","2","3","4","5","6","7","8","9"],
         relatedValues = this.buildRelatedValues(currentIndex);
-
     return util.diffArrays(POSSIBLE_VALUES, relatedValues);
   },
 
@@ -271,7 +275,13 @@ var util = {
     reg = new RegExp("(" + strB + ")","gi"),
     strDiff = strA.replace(reg,"").replace(/^:/,"").replace(/:$/,"");
 
-    return strDiff.split("::");
+    // if B is an empty array, everything falls to shit.
+    // e.g. ["1","2"] - [] === ["12"]
+    if (B.length === 0) {
+      return A;
+    } else {
+      return strDiff.split("::");
+    }
   }
 }
 //==========================SOLVE THAT SHIT=====================================
