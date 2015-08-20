@@ -296,22 +296,42 @@ function setBoard(gameBoard) {
   // value: sudoku is played on a 9x9 board and, well, you do the math.
   for (var i=0; i < 81; ++i) {
     // find table cell by index/id
-    var cellID = "#cell-" + ("00" + i).slice(-2);
+    var $cell = findCell(i);
 
     // unless a second argument was given, wipe any and all "red" classiness
     // amongst the cells
     if (!arguments[1]) {
-      $(cellID).removeClass("red");
+      $cell.removeClass("red");
 
     // if $(cellID).val() isn't truthy, it's an empty string, i.e., no value has
     // been set, either by the user or preloaded. If you get into this branch,
     // the "make new digits red" argument has been given and it's a new digit.
-    } else if (!$(cellID).val()) {
-      $(cellID).addClass("red");
+    } else if (!$cell.val()) {
+      $cell.addClass("red");
     }
     // set table cell entry to game cell value
-    $(cellID).val(gameBoard[i].digit !== "0" ? gameBoard[i].digit : "");
+    $cell.val(gameBoard[i].digit !== "0" ? gameBoard[i].digit : "");
   }
+}
+
+function findCell(index) {
+  var cellID = "#cell-" + ("00" + index).slice(-2);
+  return $(cellID);
+}
+
+// reads the value of every cell and concatenates them into a string,
+// to make a new Board
+function parseBoard() {
+  var values = "",
+      $cell;
+
+  for (var i=0; i < 81; ++i) {
+    $cell = findCell(i);
+
+    values += ( $cell.val() ? $cell.val() : 0 )
+  }
+
+  return values;
 }
 
 var emptyGame      = new Game("000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
@@ -330,6 +350,7 @@ loadButton.click(function(e) {
 
 solveButton.click(function(e) {
   e.preventDefault();
+  currentGame = new Game(parseBoard());
   currentGame.solve();
   setBoard(currentGame.board, true);
 });
