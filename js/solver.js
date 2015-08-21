@@ -298,16 +298,16 @@ function setBoard(gameBoard) {
     // find table cell by index/id
     var $cell = findCell(i);
 
-    // unless a second argument was given, wipe any and all "red" classiness
+    // unless a second argument was given, wipe any and all highlight classiness
     // amongst the cells
     if (!arguments[1]) {
-      $cell.removeClass("red");
+      $cell.removeClass("text--highlight");
 
     // if $(cellID).val() isn't truthy, it's an empty string, i.e., no value has
     // been set, either by the user or preloaded. If you get into this branch,
-    // the "make new digits red" argument has been given and it's a new digit.
+    // the "highlight new digits" argument has been given and it's a new digit.
     } else if (!$cell.val()) {
-      $cell.addClass("red");
+      $cell.addClass("text--highlight");
     }
     // set table cell entry to game cell value
     $cell.val(gameBoard[i].digit !== "0" ? gameBoard[i].digit : "");
@@ -334,13 +334,17 @@ function parseBoard() {
   return values;
 }
 
-var emptyGame      = new Game("000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
-    currentGame    = emptyGame,
-    puzzleSelector = $("#puzzle-selector"),
-    loadButton     = $("#load-button"),
-    clearButton    = $("#clear-button"),
-    solveButton    = $("#solve-button");
+var emptyGame        = new Game("000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+    currentGame      = emptyGame,
+    puzzleSelector   = $("#puzzle-selector"),
+    puzzleDisplayRow = $(".js-puzzle-row"),
+    loadButton       = $("#load-button"),
+    clearButton      = $("#clear-button"),
+    solveButton      = $("#solve-button");
 
+// UI! handlers for all buttons and extra selection logic (clicking on a
+// read-only <optgroup> tag comprising the display of a given puzzle selects the
+// puzzle's <option> tag
 loadButton.click(function(e) {
   e.preventDefault();
   var newBoard = puzzleSelector.val();
@@ -358,4 +362,10 @@ solveButton.click(function(e) {
 clearButton.click(function(e) {
   e.preventDefault();
   setBoard(emptyGame.board);
+});
+
+puzzleDisplayRow.click(function(e) {
+  var puzzle = $(this).data(); // e.g. {digits: "123456789123456789123456789123456789123456789123456789123456789123456789123456789"}
+
+  puzzleSelector.val(puzzle.digits);
 });

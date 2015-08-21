@@ -53,25 +53,55 @@ USING Block__Element--Modifier naming convention:
   box-sizing: border-box;
 }
 
-/* TODO: replace with small, patterned image */
-body { background: #ccc; }
+.block-group { margin: -2px -12px; }
+.block { padding: 2px 12px; }
 
-header {
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+body {
+  background: url("images/bg.png");
+  font-family: "Ubuntu", sans-serif;
+}
+
+a { color: #024; }
+a:hover { color: #c60c30; }
+
+.primary-title {
   text-align: center;
-  color: #aa9668;
-  background: #823;
-  margin-bottom: 1em;
+  font-size: 4em;
+  color: #024;
+  margin: 1em 1rem;
+}
+
+.control-group { margin: 0 1em; }
+.control-group__select { margin-top: 2.5rem; }
+.control-group__button {
+  padding: 10px 0;
+  margin-top: 2.5rem;
+  background-color: rgba(0, 34, 68, 0.8);
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 1em;
+  font-family: 'Ubuntu', sans-serif;
+}
+.control-group__button:hover {
+  background-color: rgb(198, 12, 48);
 }
 
 .board__main {
-  width: 50%;
+  width: 70%;
   margin: auto;
   border-collapse: collapse;
   background: #fff;
+  float: right;
 }
-.board__left, .board__right { width: 25%; }
+.board__left { width: 30%; }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
   .board__main {
     width: 100%;
   }
@@ -81,27 +111,37 @@ header {
 }
 
 .board__cell {
-  border: 3px solid #aa9668; /* gold from ambirdsall.github.io */
+  /* redo border to have zero overlap */
+  border: 3px solid rgba(0, 34, 68, 0.15); /* Red Sox blue from ambirdsall.github.io */
   width: 1em; /* a square cell filled by 1 character */
 }
 
 /* subdivide the table into 9 3x3 sections */
 .board__cell:nth-child(3), .board__cell:nth-child(6) {
-  border-right: 4px solid #8c001a;
+  border-right: 4px solid #024;
 }
 .board__row:nth-child(3) > .board__cell, .board__row:nth-child(6) > .board__cell {
-  border-bottom: 4px solid #8c001a;
+  border-bottom: 4px solid #024;
 }
 
-.board__cell > input[type=text] {
+/* .board__cell > input[type=text] { */
+.board__input {
   border: none;
   width: 100%;
   height: 100%;
   text-align: center;
   font-size: 3em;
+  font-family: 'Ubuntu', sans-serif;
+  color: #024;
 }
 
-.red { color: #a00; }
+.text--highlight { color: #c60c30; }
+.text--indented { margin-left: 2em; }
+.text--monospace {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 1.5em;
+}
+.text--subtext { color: #aaa; }
 
 .footer { text-align: center; }
 
