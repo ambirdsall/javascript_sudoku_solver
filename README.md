@@ -7,4 +7,4 @@ a given puzzle is unsolvable. Just an infinite loop.
 
 * * *
 
-[Check it out!](ambirdsall.github.io/javascript_sudoku_solver)
+# [Check it out!](https://ambirdsall.github.io/javascript_sudoku_solver)
